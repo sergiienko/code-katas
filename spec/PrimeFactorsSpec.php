@@ -38,6 +38,11 @@ class PrimeFactorsSpec extends ObjectBehavior
 		$this->generate(6)->shouldReturn([2, 3]);
 	}
 
+    function it_computes_prime_factors_of_7()
+    {
+        $this->generate(7)->shouldReturn([7]);
+    }
+
 	function it_computes_prime_factors_of_8()
 	{
 		$this->generate(8)->shouldReturn([2, 2, 2]);
@@ -47,6 +52,11 @@ class PrimeFactorsSpec extends ObjectBehavior
 	{
 		$this->generate(9)->shouldReturn([3, 3]);
 	}
+
+    function it_computes_prime_factors_of_26()
+    {
+        $this->generate(26)->shouldReturn([2, 13]);
+    }
 
 	function it_computes_prime_factors_of_100()
 	{
