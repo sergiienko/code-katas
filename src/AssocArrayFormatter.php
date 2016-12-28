@@ -4,27 +4,39 @@ class AssocArrayFormatter
 {
 	const DELIMITER = '=>';
 
-    public function format($string)
+	private $lines = [];
+
+	public function __construct($input)
+	{
+		$this->lines = explode("\n", $input);
+	}
+
+    public function format()
     {
-    	if (empty($string) || ! strpos($string, "\n")) {
-	    	return $string;
+    	if (empty($this->lines)) {
+    		return '';
     	}
 
-    	$lines = explode("\n", $string);
+    	if (count($this->lines) == 1) {
+	    	return $this->lines[0];
+    	}
 
-    	$needed_delimiter_position = static::determineMaxDelimiterPosition($lines);
+    	$needed_delimiter_position = static::determineMaxDelimiterPosition($this->lines);
 
-    	foreach ($lines as &$line) {
+    	foreach ($this->lines as &$line) {
     		$current_delimiter_position = strpos($line, static::DELIMITER);
     		if ($current_delimiter_position != $needed_delimiter_position) {
-    			list($key, $value) = explode(static::DELIMITER, $line);
-    			$key .= str_repeat(' ', $needed_delimiter_position - $current_delimiter_position);
-    			$line = $key . static::DELIMITER . $value;
+    			$line = static::addSpaces($line, $needed_delimiter_position - $current_delimiter_position);
     		}
     	}
 
 
-    	return implode("\n", $lines);
+    	return $this->__toString();
+    }
+
+    public function __toString()
+    {
+    	return implode("\n", $this->lines);
     }
 
     public static function determineMaxDelimiterPosition($lines, $delimiter = self::DELIMITER)
@@ -39,5 +51,12 @@ class AssocArrayFormatter
     	}
 
     	return $max;
+    }
+
+    public static function addSpaces($line, $number_of_spaces)
+    {
+		list($key, $value) = explode(static::DELIMITER, $line);
+		$key .= str_repeat(' ', $number_of_spaces);
+		return $key . static::DELIMITER . $value;
     }
 }

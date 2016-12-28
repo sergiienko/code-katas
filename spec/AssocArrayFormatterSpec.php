@@ -10,12 +10,16 @@ class AssocArrayFormatterSpec extends ObjectBehavior
 {
 	function it_does_not_format_an_empty_string()
 	{
-		$this->format('')->shouldReturn('');
+		$this->beConstructedWith('');
+
+		$this->format()->shouldReturn('');
 	}
 
 	function it_does_not_format_one_line_string()
 	{
 		$string = "'foo' => 'bar'";
+		$this->beConstructedWith($string);
+
 		$this->format($string)->shouldReturn($string);
 	}
 
@@ -53,6 +57,8 @@ INPUT;
 			1    => 'I',
 OUTPUT;
 
-		$this->format($input)->shouldReturn($output);
+		$this->beConstructedWith($input);
+		
+		$this->format()->shouldReturn($output);
 	}
 }
